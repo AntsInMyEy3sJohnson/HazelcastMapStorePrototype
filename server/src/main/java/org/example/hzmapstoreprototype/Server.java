@@ -11,7 +11,7 @@ public class Server {
     public static void main(String[] args) throws InterruptedException {
 
         var dataConnectionName = "hzpersistence";
-        var mapName = "htp_test-0";
+        var mapName = "htp_test";
         var mapStoreConfig = assembleMapStoreConfig(dataConnectionName);
 
         var numHazelcastInstances = 2;
@@ -63,9 +63,9 @@ public class Server {
 
         return new DataConnectionConfig(name)
                 .setType("JDBC")
-                .setProperty("jdbcUrl", "jdbc:mysql://localhost:30306/hzpersistence")
+                .setProperty("jdbcUrl", "jdbc:h2:mem://localhost:%d/~/hzpersistence;MODE=MySQL")
                 .setProperty("user", "hazman")
-                .setProperty("password", "also-super-secret")
+                .setProperty("password", "super-secret")
                 .setShared(false);
 
     }

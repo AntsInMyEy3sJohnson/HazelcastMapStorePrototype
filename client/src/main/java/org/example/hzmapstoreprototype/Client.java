@@ -36,7 +36,7 @@ public class Client {
 
         Thread.sleep(1000);
 
-        var mapName = "htp_test-0";
+        var mapName = "htp_test";
         var persistenceEnabledMap = client.getMap(mapName);
 
         for (int i = 0; i < 10; i++) {
