@@ -1,11 +1,11 @@
-package org.example;
+package org.example.hzmapstoreprototype;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.nio.serialization.genericrecord.GenericRecordBuilder;
 
 
-public class Main {
+public class Client {
 
     private static enum InteractionMode {
         INSERT,
