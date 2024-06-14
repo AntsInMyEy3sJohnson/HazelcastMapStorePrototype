@@ -7,14 +7,35 @@ import com.hazelcast.config.MapStoreConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
+import java.sql.*;
+
 public class Server {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, SQLException {
+
+        var jdbcUrl = "jdbc:h2:tcp://localhost:3306/mem:hzpersistence;MODE=MySQL;SCHEMA=PUBLIC";
+        var username = "hazman";
+        var password = "super-secret";
+
+        Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM htp_test");
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            System.out.println("ID: " + id + ", Name: " + name);
+        }
+
+        resultSet.close();
+        statement.close();
+        connection.close();
 
         var dataConnectionName = "hzpersistence";
         var mapName = "htp_test";
         var mapStoreConfig = assembleMapStoreConfig(dataConnectionName);
 
-        var numHazelcastInstances = 2;
+        var numHazelcastInstances = 1;
         HazelcastInstance[] hzInstances = new HazelcastInstance[numHazelcastInstances];
         var basePort = 5701;
         for (int i = 0; i < numHazelcastInstances; i++) {
@@ -63,10 +84,11 @@ public class Server {
 
         return new DataConnectionConfig(name)
                 .setType("JDBC")
-                .setProperty("jdbcUrl", "jdbc:h2:mem://localhost:%d/~/hzpersistence;MODE=MySQL")
+                .setProperty("jdbcUrl", "jdbc:h2:tcp://localhost:3306/mem:hzpersistence;MODE=MySQL;SCHEMA=PUBLIC")
                 .setProperty("user", "hazman")
                 .setProperty("password", "super-secret")
-                .setShared(false);
+                .setProperty("dialect", "H2")
+                .setShared(true);
 
     }
 
