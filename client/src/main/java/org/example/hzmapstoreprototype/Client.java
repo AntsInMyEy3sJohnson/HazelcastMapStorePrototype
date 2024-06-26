@@ -7,7 +7,7 @@ import com.hazelcast.nio.serialization.genericrecord.GenericRecordBuilder;
 
 public class Client {
 
-    private static enum InteractionMode {
+    private enum InteractionMode {
         INSERT,
         DELETE,
         READ
