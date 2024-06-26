@@ -15,11 +15,15 @@ public class Client {
 
     public static void main(String[] args) throws InterruptedException {
 
-        spawnClientOnCluster("hazelcastplatform-0", "localhost:5701", InteractionMode.INSERT);
+        var targetCluster1Name = System.getenv("TARGET_CLUSTER_1_NAME");
+        var targetCluster1Address = System.getenv("TARGET_CLUSTER_1_ADDRESS");
+        spawnClientOnCluster(targetCluster1Name, targetCluster1Address, InteractionMode.INSERT);
 
         Thread.sleep(2000);
 
-        spawnClientOnCluster("hazelcastplatform-1", "localhost:5702", InteractionMode.READ);
+        var targetCluster2Name = System.getenv("TARGET_CLUSTER_2_NAME");
+        var targetCluster2Address = System.getenv("TARGET_CLUSTER_2_ADDRESS");
+        spawnClientOnCluster(targetCluster2Name, targetCluster2Address, InteractionMode.READ);
 
     }
 
